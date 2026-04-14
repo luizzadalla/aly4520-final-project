@@ -1,0 +1,74 @@
+schema: '2.0'
+stages:
+  data_ingest:
+    cmd: python src/data_ingest.py
+    deps:
+    - path: data/raw/cardio_train.csv
+      hash: md5
+      md5: 71c46a70f7ba9e3e4736ae73ecd5bac9
+      size: 2941524
+    - path: src/data_ingest.py
+      hash: md5
+      md5: aad722ec05fc7ff757aea31266519574
+      size: 829
+    outs:
+    - path: data/staged/data.csv
+      hash: md5
+      md5: 0ede1161114235934d6ae36bf0ba91a9
+      size: 2459328
+  data_validation:
+    cmd: python src/data_validation.py
+    deps:
+    - path: data/staged/data.csv
+      hash: md5
+      md5: 0ede1161114235934d6ae36bf0ba91a9
+      size: 2459328
+    - path: src/data_validation.py
+      hash: md5
+      md5: 8e601209f87d85adf26e7633591643a7
+      size: 1738
+    outs:
+    - path: reports/validation_report.json
+      hash: md5
+      md5: 18a3d5a28ea85dbf9fc4514b9156a990
+      size: 650
+  train_and_tune:
+    cmd: python src/train_and_tune.py
+    deps:
+    - path: data/staged/data.csv
+      hash: md5
+      md5: 0ede1161114235934d6ae36bf0ba91a9
+      size: 2459328
+    - path: src/train_and_tune.py
+      hash: md5
+      md5: 1eea646e6a7949101e24f04fda2a8afa
+      size: 3094
+    outs:
+    - path: models/model.pkl
+      hash: md5
+      md5: 9b1ac5aeb03d94ccbe8b04f11a0a29b9
+      size: 9382281
+    - path: models/train_results.json
+      hash: md5
+      md5: 7b841d3a70e7e032481ce2974036bb50
+      size: 663
+  evaluate:
+    cmd: python src/evaluate.py
+    deps:
+    - path: data/staged/data.csv
+      hash: md5
+      md5: 0ede1161114235934d6ae36bf0ba91a9
+      size: 2459328
+    - path: models/model.pkl
+      hash: md5
+      md5: 9b1ac5aeb03d94ccbe8b04f11a0a29b9
+      size: 9382281
+    - path: src/evaluate.py
+      hash: md5
+      md5: 76b74472062dd58b3bc8babb501c1b1e
+      size: 2388
+    outs:
+    - path: reports/evaluation_report.json
+      hash: md5
+      md5: 536df266945d861fe44edfa293c9ee97
+      size: 700
