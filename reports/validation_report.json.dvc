@@ -1,5 +1,0 @@
-outs:
-- md5: 18a3d5a28ea85dbf9fc4514b9156a990
-  size: 650
-  hash: md5
-  path: validation_report.json
