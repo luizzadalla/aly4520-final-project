@@ -36,10 +36,10 @@ jobs:
         run: dvc pull
 
       - name: Reproduce DVC pipeline
-        run: dvc repro #allgood
+        run: dvc repro
 
       - name: Run monitoring checks
-	run: python src/monitor.py
+        run: python src/monitor.py
 
       - name: Push updated DVC artifacts
         run: dvc push
