@@ -3,8 +3,6 @@ __pycache__/
 *.pyc
 .DS_Store
 
-data/staged/*
-!data/staged/.gitkeep
-
-models/*
-!models/.gitkeep
+data/staged/*.csv
+models/*.pkl
+reports/*.json
