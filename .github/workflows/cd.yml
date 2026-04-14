@@ -1,0 +1,67 @@
+name: CD
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  retrain-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install dvc[s3]
+
+      - name: Configure AWS credentials
+        run: |
+          mkdir -p ~/.aws
+          printf "[default]\naws_access_key_id=%s\naws_secret_access_key=%s\n" \
+            "${{ secrets.AWS_ACCESS_KEY_ID }}" \
+            "${{ secrets.AWS_SECRET_ACCESS_KEY }}" > ~/.aws/credentials
+          printf "[default]\nregion=%s\noutput=json\n" \
+            "${{ secrets.AWS_DEFAULT_REGION }}" > ~/.aws/config
+
+      - name: Pull current DVC artifacts
+        run: dvc pull
+
+      - name: Reproduce DVC pipeline
+        run: dvc repro
+
+      - name: Push updated DVC artifacts
+        run: dvc push
+
+      - name: Log in to ECR
+        run: |
+          aws ecr get-login-password --region us-east-1 | \
+          docker login --username AWS --password-stdin 666109694562.dkr.ecr.us-east-1.amazonaws.com
+
+      - name: Build Docker image for SageMaker
+        run: |
+          docker buildx build --platform linux/amd64 \
+            -t 666109694562.dkr.ecr.us-east-1.amazonaws.com/cardio-mlops:latest \
+            --load .
+
+      - name: Push Docker image to ECR
+        run: docker push 666109694562.dkr.ecr.us-east-1.amazonaws.com/cardio-mlops:latest
+
+      - name: Create model tarball
+        run: |
+          mkdir -p sagemaker_model
+          cp models/model.pkl sagemaker_model/
+          tar -czf model.tar.gz -C sagemaker_model model.pkl
+          aws s3 cp model.tar.gz s3://aly4520-mlops-luizza/model.tar.gz
+
+      - name: Deploy SageMaker endpoint
+        run: python deploy_sagemaker.py
