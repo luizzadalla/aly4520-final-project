@@ -1,11 +1,14 @@
-import json
+import os
 import joblib
 import pandas as pd
 from flask import Flask, request, jsonify
 
 app = Flask(__name__)
 
-MODEL_PATH = "models/model.pkl"
+MODEL_PATH = "/opt/ml/model/model.pkl"
+if not os.path.exists(MODEL_PATH):
+    MODEL_PATH = "models/model.pkl"
+
 model = joblib.load(MODEL_PATH)
 
 

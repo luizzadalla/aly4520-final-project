@@ -1,0 +1,16 @@
+.git
+.dvc
+.dvc/cache
+.venv
+__pycache__
+*.pyc
+data
+reports
+tests
+src
+.gitignore
+README.md
+deploy_sagemaker.py
+test_endpoint.py
+model.tar.gz
+sagemaker_model
