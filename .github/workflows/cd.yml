@@ -36,7 +36,7 @@ jobs:
         run: dvc pull
 
       - name: Reproduce DVC pipeline
-        run: dvc repro
+        run: dvc repro #allgood
 
       - name: Run monitoring checks
   	run: python src/monitor.py
