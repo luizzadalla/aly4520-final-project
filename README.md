@@ -114,8 +114,7 @@ This simulates drift detection in production pipelines.
 
 Governance & Responsible AI Fairness
 Model performance is evaluated across gender groups:
-- Ensures no major disparity between subgroups
-Documentation
+- Model performance is evaluated across gender subgroups by computing accuracy, precision, recall, and F1 score separately. This allows detection of potential disparities between groups, although no fairness mitigation techniques were applied in this project.
 - Incident playbook: reports/incident_playbook.md
 - Model audit log: reports/model_version_audit_log.md
 Governance workflow
