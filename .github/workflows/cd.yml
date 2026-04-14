@@ -39,7 +39,7 @@ jobs:
         run: dvc repro #allgood
 
       - name: Run monitoring checks
-  	run: python src/monitor.py
+	run: python src/monitor.py
 
       - name: Push updated DVC artifacts
         run: dvc push
