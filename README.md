@@ -17,7 +17,9 @@ Data is versioned using DVC and stored in AWS S3.
 Project Structure
 aly4520-final-project/
 ├── data/
+
 │   ├── raw/
+
 │   └── staged/
 ├── src/
 │   ├── data_ingest.py
