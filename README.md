@@ -21,27 +21,48 @@ aly4520-final-project/
 │   ├── raw/
 
 │   └── staged/
+
 ├── src/
+
 │   ├── data_ingest.py
+
 │   ├── data_validation.py
+
 │   ├── train_and_tune.py
 │   ├── evaluate.py
+
 │   ├── monitor.py
+
 ├── inference/
+
 │   ├── inference.py
+
 │   ├── predict.py
+
 ├── models/
+
 ├── reports/
+
 │   ├── validation_report.json.dvc
+
 │   ├── evaluation_report.json.dvc
+
 │   ├── incident_playbook.md
+
 │   ├── model_version_audit_log.md
+
 ├── .github/workflows/
+
 │   ├── ci.yml
+
 │   ├── cd.yml
+
 ├── Dockerfile
+
 ├── dvc.yaml
+
 ├── requirements.txt
+
 └── README.md
 
 Local Execution
@@ -69,7 +90,9 @@ docker build -t cardio-mlops .
 Run locally:
 docker run -p 8080:8080 cardio-mlops
 Test endpoints:
+
 curl http://localhost:8080/ping
+
 curl -X POST http://localhost:8080/invocations \
   -H "Content-Type: application/json" \
   -d '{"gender":1,"height":170,"weight":70,"ap_hi":120,"ap_lo":80,"cholesterol":1,"gluc":1,"smoke":0,"alco":0,"active":1,"age_years":50}'
