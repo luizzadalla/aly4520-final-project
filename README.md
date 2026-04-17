@@ -1,9 +1,9 @@
-End-to-End MLOps Pipeline (Cardiovascular Risk Prediction)
+**End-to-End MLOps Pipeline (Cardiovascular Risk Prediction)**
 
-Project Overview
-This project implements a full end-to-end MLOps pipeline for predicting cardiovascular disease risk using a structured dataset. The pipeline covers data ingestion, validation, model training, evaluation, deployment, monitoring, and governance. The system is designed to simulate a production-ready ML workflow using modern tools such as DVC, Docker, AWS SageMaker, and GitHub Actions.
+**Project Overview**
+This project implements a full end-to-end MLOps pipeline for predicting cardiovascular disease risk using a structured dataset (Ulianova, 2019). The pipeline covers data ingestion, validation, model training, evaluation, deployment, monitoring, and governance. The system is designed to simulate a production-ready ML workflow using modern tools such as DVC, Docker, AWS SageMaker, and GitHub Actions.
 
-Dataset: Cardiovascular dataset (cardio_train.csv)
+**Dataset: Cardiovascular dataset (cardio_train.csv)**
 - Source: Kaggle by Ulianova (2019)
 - Size: 70,000 rows
 Features include:
@@ -14,8 +14,10 @@ Features include:
 
 Data is versioned using DVC and stored in AWS S3.
 
-Project Structure
+**Project Structure**
+
 aly4520-final-project/
+
 ├── data/
 
 │   ├── raw/
@@ -65,7 +67,7 @@ aly4520-final-project/
 
 └── README.md
 
-Local Execution
+**Local Execution**
 1. Install dependencies
 pip install -r requirements.txt
 pip install dvc[s3]
@@ -74,7 +76,7 @@ dvc pull
 3. Run full pipeline
 dvc repro
 
-DVC Pipeline
+**DVC Pipeline**
 The pipeline consists of:
 - Data ingestion → clean and prepare dataset
 - Data validation → schema and quality checks
@@ -84,7 +86,7 @@ Artifacts are versioned and stored in S3.
 
 
 
-Docker
+**Docker**
 Build the inference container:
 docker build -t cardio-mlops .
 Run locally:
@@ -98,7 +100,7 @@ curl -X POST http://localhost:8080/invocations \
   -d '{"gender":1,"height":170,"weight":70,"ap_hi":120,"ap_lo":80,"cholesterol":1,"gluc":1,"smoke":0,"alco":0,"active":1,"age_years":50}'
 
 
-AWS SageMaker Deployment
+**AWS SageMaker Deployment**
 The model is deployed using a custom Docker container.
 Steps:
 1. Build and push Docker image to Amazon ECR
@@ -110,7 +112,7 @@ python deploy_sagemaker.py
 
 
 
-CI/CD Pipeline (GitHub Actions)
+**CI/CD Pipeline (GitHub Actions)**
 
 CI (Continuous Integration)
 Triggered on push and pull requests:
@@ -129,7 +131,7 @@ Triggered on push to main:
 - Deploy SageMaker endpoint
 
 
-Monitoring
+**Monitoring**
 A basic monitoring script checks model performance:
 python src/monitor.py
 Current rule:
@@ -137,7 +139,7 @@ Current rule:
 This simulates drift detection in production pipelines.
 
 
-Governance & Responsible AI Fairness
+**Governance & Responsible AI Fairness**
 Model performance is evaluated across gender groups:
 - Model performance is evaluated across gender subgroups by computing accuracy, precision, recall, and F1 score separately. This allows detection of potential disparities between groups, although no fairness mitigation techniques were applied in this project.
 - Incident playbook: reports/incident_playbook.md
@@ -148,20 +150,20 @@ Governance workflow
 - Review fairness metrics
 - Approve before deployment
 
-Key Results
+**Key Results**
 - Best model: Random Forest
 - Accuracy: ~0.73
 - Fairness gap: small but monitored
 
 
-Lessons Learned:
+**Lessons Learned:**
 - Data validation is critical (invalid blood pressure values were detected)
 - Docker architecture must match deployment environment (amd64 vs arm)
 - CI/CD pipelines require proper secret management
 - Monitoring and governance are essential for production ML systems
 
 
-Next Steps:
+**Next Steps:**
 - Add advanced drift detection
 - Implement model registry (MLflow)
 - Improve fairness mitigation techniques
@@ -169,6 +171,6 @@ Next Steps:
 
 
 
-Reference
+**Reference**
 
 Ulianova, S. (2019). Cardiovascular disease dataset [Data set]. Kaggle. https://www.kaggle.com/datasets/sulianova/cardiovascular-disease-dataset
